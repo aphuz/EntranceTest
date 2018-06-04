@@ -1,0 +1,11 @@
+.side-menu li{
+    cursor: pointer;
+}
+.side-menu li:hover{
+    background-color: #e6e6e6;
+}
+
+.selected {
+  background-color: #CFD8DC !important;
+  color: #007bff;
+}

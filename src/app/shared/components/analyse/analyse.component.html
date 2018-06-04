@@ -1,0 +1,46 @@
+<header>
+	<ul class="nav navbar-top-links bg-dark navbar-left" style="display: flex">
+		<div class="col-sm-2" style="margin-right: -15px; padding-left: 0px;">
+			<a style="float: left; display: block; color: #337ab7; text-align: center; padding: 14px 16px; text-decoration: none;">TMAEntranceTest</a>
+		<!-- <div class="topnav">		  
+		  <a >Analyse</a>
+		  <a >Examination</a>		  
+		</div> -->
+		</div>
+		<div class="inputSearch" tabindex="1">
+				<input class="form-control-dark w-100" type="text" placeholder="Search..." aria-label="Search">		
+		</div>
+		<ul class="nav navbar-nav navbar-right" style="padding: 14px 16px;">
+			<li class="dropdown" style="cursor: pointer;">
+		        <a class="dropdown-toggle" data-toggle="dropdown">
+		            My Account <i class="fa fa-user fa-fw"></i> 
+		        </a>
+		        <ul class="dropdown-menu dropdown-user">
+		            <li><a ><i class="fa fa-user fa-fw"></i> User Profile</a>
+		            </li>
+		            <li><a ><i class="fa fa-gear fa-fw"></i> Settings</a>
+		            </li>
+		            <li class="divider"></li>
+		            <li><a  routerLink="/login"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+		            </li>
+		        </ul>
+	    	</li>
+    	</ul>    	
+	</ul>
+</header>
+
+<div>
+  <div class="row content">
+    <div class="col-sm-2 sidenav" style="padding-right: 0px;">
+      <app-sidemenu (tablePicked)="changeTable($event)"></app-sidemenu>
+    </div>
+
+    <div class="col-sm-10 scrollbar scrollbar-primary">
+            <app-tabledetail tableName={{tableName}}></app-tabledetail>
+    </div>
+  </div>
+</div>
+
+<footer class="container-fluid">
+  <p>Footer Text</p>
+</footer>

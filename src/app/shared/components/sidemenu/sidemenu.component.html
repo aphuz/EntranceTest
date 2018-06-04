@@ -1,0 +1,22 @@
+<div class="sidebar-sticky">
+  <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+    <span>Management</span>              
+  </h6>
+  <ul class="nav flex-column side-menu">
+    <li class="nav-item" *ngFor="let table of tables" [class.selected]="table === selectedTable" (click)="onSelect(table)">
+      <a class="nav-link active">
+        <i class="fa fa-dashboard fa-fw"></i>
+        {{table.tableName}}
+      </a>
+    </li>               
+  </ul>
+
+  <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+    <span>File</span>              
+  </h6>
+  <ul class="nav flex-column mb-2 side-menu">
+    <button mat-button class="text-left" (click)="openQuestionList()"> <i class="fa fa-download fa-fw"></i> Export Question List</button>
+<!--     <button mat-button class="text-left" (click)="openAnswerList()"> <i class="fa fa-download fa-fw"></i> Export Answer List</button>   
+ -->    <button mat-button class="text-left" (click)="openImportData()"> <i class="fa fa-upload fa-fw"></i> Import data</button>      
+  </ul>
+</div>

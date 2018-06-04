@@ -1,0 +1,10 @@
+<h1 mat-dialog-title> Export answer list</h1>
+<div mat-dialog-content>
+  <mat-form-field class="input-form">
+    <input matInput placeholder="Please input the interview code" type="text" [(ngModel)]="data.interviewCode" required>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+</div>

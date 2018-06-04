@@ -1,0 +1,39 @@
+form {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+form button {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  outline: 0;
+  background-color: white;
+  border: 0;
+  padding: 10px 15px;
+  color: #53e3a6;
+  border-radius: 3px;
+  width: 250px;
+  cursor: pointer;
+  font-size: 18px;
+  transition-duration: 0.25s;
+}
+form button:hover {
+  background-color: #f5f7f9;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 120px 0 120px;
+
+}
+
+.form-container > * {
+  width: 100%;
+}
+
+.form-right-align {
+  text-align: right;
+}

@@ -1,0 +1,9 @@
+<h1 mat-dialog-title> Import data dialog</h1>
+<div mat-dialog-content>
+    <input type="file" id="file"
+           (change)="handleFileInput($event.target.files)" required>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button (click)="uploadFileToActivity()" cdkFocusInitial>Ok</button>
+</div>
