@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpModule, RequestOptions, XHRBackend } from '@angular/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {
@@ -42,13 +43,15 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './/app-routing.module';
 
 import { LoginComponent } from './modules/login/pages/login/login.component';
-import { AnalyseComponent } from './shared/components/analyse/analyse.component';
+import { AnalyseComponent } from './modules/analyse/pages/analyse/analyse.component';
 import { SidemenuComponent } from './shared/components/sidemenu/sidemenu.component';
 import { TabledetailComponent } from './shared/components/tabledetail/tabledetail.component';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { ExportAnswerListDialogComponent } from './shared/components/export-answer-list-dialog/export-answer-list-dialog.component';
 import { ExportQuestionListDialogComponent } from './shared/components/export-question-list-dialog/export-question-list-dialog.component';
 import { ImportdatadialogComponent } from './shared/components/importdatadialog/importdatadialog.component';
+import { LoginformComponent } from './modules/login/components/loginform/loginform.component';
+import { BubblesComponent } from './modules/login/components/bubbles/bubbles.component';
 
 import { UserService } from './shared/services/user.service';
 import { TableService } from './shared/services/table.service';
@@ -59,8 +62,9 @@ import { QuestionService } from './shared/services/question.service';
 import { AnswerService } from './shared/services/answer.service';
 import { FileService } from './shared/services/file.service';
 import { LoaderService } from './shared/services/loader.service';
-import { LoginformComponent } from './modules/login/components/loginform/loginform.component';
-import { BubblesComponent } from './modules/login/components/bubbles/bubbles.component';
+
+import { HttpService, applicationHttpClientCreator } from './shared/services/http.service';
+import { HttpClient } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -74,8 +78,8 @@ import { BubblesComponent } from './modules/login/components/bubbles/bubbles.com
     ExportQuestionListDialogComponent,
     ImportdatadialogComponent,
     LoginformComponent,
-    BubblesComponent 
-  ],
+    BubblesComponent
+    ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -117,7 +121,13 @@ import { BubblesComponent } from './modules/login/components/bubbles/bubbles.com
     MatTooltipModule,
   ],
   entryComponents: [SidemenuComponent, ExportAnswerListDialogComponent, ExportQuestionListDialogComponent, ImportdatadialogComponent],
-  providers: [UserService, TableService, CategoryService, KindService, InterviewService, QuestionService, AnswerService, FileService, LoaderService],
+  providers: [{
+      provide: HttpService,
+      useFactory: applicationHttpClientCreator,
+      deps: [HttpClient]
+    },
+    UserService, TableService, CategoryService, KindService, InterviewService, QuestionService, AnswerService, FileService, LoaderService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

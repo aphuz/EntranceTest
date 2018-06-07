@@ -1,6 +1,8 @@
 <router-outlet>
 	<div *ngIf="showLoader" style="width: 100%; height: 100%; z-index: 10000; position: absolute; background: rgba(222, 222, 222, 0.5);">
-		<mat-spinner style="margin: 0 auto; top: 50%;"></mat-spinner>
+		<!-- <mat-spinner style="margin: 0 auto; top: 50%;"></mat-spinner> -->
+		<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+
 	</div>	
 </router-outlet>
   	

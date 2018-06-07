@@ -5,6 +5,9 @@
     background-color: #e6e6e6;
 }
 
+.side-menu span{
+	white-space: pre-wrap;
+}
 .selected {
   background-color: #CFD8DC !important;
   color: #007bff;

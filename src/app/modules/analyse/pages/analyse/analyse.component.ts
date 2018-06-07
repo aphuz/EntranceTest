@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Table } from '../../models/table.model';
+import { Table } from '../../../../shared/models/table.model';
 
 @Component({
   selector: 'app-analyse',
@@ -9,7 +9,7 @@ import { Table } from '../../models/table.model';
 export class AnalyseComponent implements OnInit {
 
 	tableName: String = "User";
-
+  show: boolean = true;
   constructor() { }
 
   ngOnInit() {

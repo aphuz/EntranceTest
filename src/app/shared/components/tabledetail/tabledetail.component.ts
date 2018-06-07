@@ -31,7 +31,9 @@ export class TabledetailComponent implements OnInit {
   
  	dataSource;
  	displayedColumns = TABLES[0].columns;
-
+  selectedValue: string;
+  columnsName = TABLES[0].columnName;
+  languages;
   constructor( private userService: UserService, 
                private tableService: TableService,
                private categoryService: CategoryService,
@@ -47,9 +49,13 @@ export class TabledetailComponent implements OnInit {
 		this.getUsers();
 	}
 
+  changeLanguage(){
+    this.getQuestions(this.selectedValue);
+  }
   ngOnChanges(changes: SimpleChanges) {    
     if(this.tableService.table){
       this.displayedColumns = this.tableService.table.columns;
+      this.columnsName = this.tableService.table.columnName;
     }
     if(this.tableName == "Category"){
       this.getCategories();
@@ -64,12 +70,21 @@ export class TabledetailComponent implements OnInit {
       this.getInterviews();
     }
     else if(this.tableName == "Question"){
-      this.getQuestions();
+        this.categoryService.getAllCategories().subscribe(results => {
+          if(!results){
+            return;
+          }        
+          this.languages = results;
+        });
+        this.dataSource = new MatTableDataSource();
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
     }
     else if(this.tableName == "Answer"){
       this.getAnswers();
     }
   }    
+  
 	getUsers(): void {
 		this.userService.getAllUsers().subscribe(results => {
 	    	if(!results){
@@ -114,8 +129,8 @@ export class TabledetailComponent implements OnInit {
       });
   }
 
-  getQuestions(): void {
-    this.questionService.getAllQuestions().subscribe(results => {
+  getQuestions(language: string): void {
+    this.questionService.getQuestionsByProgrammingLanguage(language).subscribe(results => {
         if(!results){
           return;
         }        
@@ -129,7 +144,7 @@ export class TabledetailComponent implements OnInit {
     this.answerService.getAllAnswers().subscribe(results => {
         if(!results){
           return;
-        }        
+        }
         this.dataSource = new MatTableDataSource(results);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;

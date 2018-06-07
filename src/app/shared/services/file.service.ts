@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ResponseContentType } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
+import { HttpService } from './http.service';
+import { IRequestOptions } from '../models/iRequestOptions.model';
 
 @Injectable()
 export class FileService {
@@ -11,15 +13,15 @@ export class FileService {
   private exportExamByInterviewCode = "http://192.168.88.31:8080/exportExamByInterviewCode";
 	private getAnswerPDFURL = "http://192.168.88.31:8080/exportanswerPDF/";
   private uploadFileURL = 'http://192.168.88.31:8080/uploadfile';
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpService) { }
 
  	getQuestionPDF(technical: string, interviewName: string, description: string) { 
       let formData: FormData = new FormData();
       formData.append('technical', technical); 
       formData.append('interviewName', interviewName); 
       formData.append('description', description); 
-
-  		return this.http.post(this.getQuestionPDFURL, formData, { responseType: 'blob' });
+      let req: IRequestOptions = { responseType: 'blob' };
+  		return this.http.post(this.getQuestionPDFURL, formData, req);
   	}
 
   exportExamByInterviewCodePDF(technical: string, interviewCode: string, questionList: string) { 
@@ -27,19 +29,21 @@ export class FileService {
       formData.append('technical', technical); 
       formData.append('interviewCode', interviewCode); 
       formData.append('questionList', questionList); 
-      
-      return this.http.post(this.exportExamByInterviewCode, formData, { responseType: 'blob' });
+      let req: IRequestOptions = { responseType: 'blob' };
+      return this.http.post(this.exportExamByInterviewCode, formData, req);
     }
 
   getAnswerPDF(interviewName: string) {  
-  		return this.http.get(this.getAnswerPDFURL+interviewName, { responseType: 'blob' });      
+      let req: IRequestOptions = { responseType: 'blob' };
+  		return this.http.get(this.getAnswerPDFURL+interviewName, req);      
 	}
 
 	postFile(fileToUpload: File): Observable<boolean> {    	
     	let formData: FormData = new FormData();
     	formData.append('file', fileToUpload, fileToUpload.name);
+      let req: IRequestOptions = { responseType: 'blob' };
     	return this.http
-      		.post(this.uploadFileURL, formData,  { responseType: 'text' })
+      		.post(this.uploadFileURL, formData,  req)
       		.map(() => { return true; });
 	}
 }

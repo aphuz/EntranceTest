@@ -4,6 +4,7 @@ import { TABLES } from '../../mocks/mock-tables.mock';
 import { TableService } from '../../services/table.service';
 import { FileService } from '../../services/file.service';
 import { LoaderService } from '../../services/loader.service';
+
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ExportAnswerListDialogComponent } from '../export-answer-list-dialog/export-answer-list-dialog.component';
 import { ExportQuestionListDialogComponent } from '../export-question-list-dialog/export-question-list-dialog.component';
@@ -35,10 +36,10 @@ export class SidemenuComponent implements OnInit {
 	ngOnInit() {
     }
 
-	onSelect(table: Table): void {
-	    this.selectedTable = table;
-	    this.tablePicked.emit(table); 
-	    this.tableService.insertData(table);
+	onSelect(table: Table): void {				
+		this.selectedTable = table;
+    	this.tablePicked.emit(table); 
+    	this.tableService.insertData(table);	    
 	}
 
 	openAnswerList() {
@@ -48,14 +49,15 @@ export class SidemenuComponent implements OnInit {
 
 	    dialogRef.afterClosed().subscribe(result => {	    
 	        if(result != undefined && result.interviewCode != "" && result.interviewCode != undefined){
-	      		 this.fileService.getAnswerPDF(result.interviewCode).subscribe(
+	        	this.loaderService.display(true);
+	      		this.fileService.getAnswerPDF(result.interviewCode).subscribe(
 			        (res) => { 		
 			        	console.log(res)        
 			        	let file = new Blob([res], { type: 'application/pdf' });            
 						var fileURL = URL.createObjectURL(file);
 						window.open(fileURL);
 						        });
-
+				this.loaderService.display(false);
 	      	}
     });
   }
@@ -66,13 +68,18 @@ export class SidemenuComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+
+
     	if(result != undefined && result.technical != "" && result.technical != undefined){
+    		this.loaderService.display(true);
     		if(result.interviewName == undefined){
-    			result.interviewName == "";
-    		}
+    			result.interviewName = "";
+    		}    		
     		if(result.description == undefined){
-    			result.description == "";
+    			result.description = "";
+    			alert(result.description)
     		}
+
      		this.fileService.getQuestionPDF(result.technical, result.interviewName, result.description).subscribe(
 		        (res) => { 		
 		        	console.log(res)        
@@ -80,6 +87,7 @@ export class SidemenuComponent implements OnInit {
 					var fileURL = URL.createObjectURL(file);
 					window.open(fileURL);
 					        });
+			this.loaderService.display(false);
     	}
     });
   }
