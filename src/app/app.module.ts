@@ -1,9 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS, HttpHeaders } from '@angular/common/http';
 import { HttpModule, RequestOptions, XHRBackend } from '@angular/http';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
           MatAutocompleteModule,
           MatButtonModule,
@@ -62,9 +62,13 @@ import { QuestionService } from './shared/services/question.service';
 import { AnswerService } from './shared/services/answer.service';
 import { FileService } from './shared/services/file.service';
 import { LoaderService } from './shared/services/loader.service';
+import { AuthService } from './shared/services/auth.service';
+
 
 import { HttpService, applicationHttpClientCreator } from './shared/services/http.service';
-import { HttpClient } from '@angular/common/http';
+import {Interceptor} from "./inteceptor";
+import {TokenStorage} from "./token.storage";
+import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +82,8 @@ import { HttpClient } from '@angular/common/http';
     ExportQuestionListDialogComponent,
     ImportdatadialogComponent,
     LoginformComponent,
-    BubblesComponent
+    BubblesComponent,
+    PageNotFoundComponent
     ],
   imports: [
     BrowserModule,
@@ -126,7 +131,13 @@ import { HttpClient } from '@angular/common/http';
       useFactory: applicationHttpClientCreator,
       deps: [HttpClient]
     },
-    UserService, TableService, CategoryService, KindService, InterviewService, QuestionService, AnswerService, FileService, LoaderService
+    UserService, TableService, CategoryService, KindService, InterviewService, QuestionService, AnswerService, FileService, LoaderService, AuthService,
+    TokenStorage,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: Interceptor,
+      multi : true
+    }
   ],
   bootstrap: [AppComponent]
 })

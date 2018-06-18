@@ -1,5 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {Router} from '@angular/router';
+import {AuthService} from '../../../../shared/services/auth.service';
+import {TokenStorage} from '../../../../token.storage';
 
 @Component({
   selector: 'app-loginform',
@@ -12,13 +15,17 @@ export class LoginformComponent implements OnInit {
 	username: string;
 	password: string;
 
-  	constructor() { }
+  constructor(private router: Router, public dialog: MatDialog, private authService: AuthService, private token: TokenStorage) { }
 
-  	ngOnInit() {
+  ngOnInit() {
   	}
 
-  	login(){
-  	alert(this.username)
-  }
-
+  login(){
+  	   this.authService.attemptAuth(this.username, this.password).subscribe(
+        data => {
+          this.token.saveToken(data.toString());
+          this.router.navigate(['analyse']);
+        }
+      );
+   }
 }
