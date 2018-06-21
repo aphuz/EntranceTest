@@ -4,13 +4,13 @@ import { Interview } from '../models/interview.model';
 import { Observable } from 'rxjs/Observable';
 import { HttpService } from './http.service';
 import { IRequestOptions } from '../models/iRequestOptions.model';
+import { ApiService } from './api.service';
 
 @Injectable()
 export class InterviewService {
-  private getAllInterviewURL = "http://192.168.88.31:8080/getallinterviews";
-  constructor(private http: HttpService) { }
+  constructor(private http: HttpService, private api: ApiService) { }
 
   getAllInterviews(): Observable<Interview[]>{  
-  	return this.http.get<Interview[]>(this.getAllInterviewURL);
+  	return this.http.get<Interview[]>(this.api.getAllInterviewURL());
   }
 }

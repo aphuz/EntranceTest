@@ -9,6 +9,7 @@ import { InterviewService } from '../../services/interview.service';
 import { QuestionService } from '../../services/question.service';
 import { AnswerService } from '../../services/answer.service';
 import { FileService } from '../../services/file.service';
+import {SelectionModel} from '@angular/cdk/collections';
 
 import { Table } from '../../models/table.model';
 import { TABLES } from '../../mocks/mock-tables.mock';
@@ -45,6 +46,21 @@ export class TabledetailComponent implements OnInit {
 
                ) { }
 
+  selection = new SelectionModel(true, []);
+
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    this.isAllSelected() ?
+        this.selection.clear() :
+        this.dataSource.data.forEach(row => this.selection.select(row));
+  }
   ngOnInit() {
 		this.getUsers();
 	}

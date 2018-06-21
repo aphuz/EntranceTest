@@ -27,11 +27,11 @@ export class SidemenuComponent implements OnInit {
 	selectedTable: Table = this.tables[0];
 
 	constructor(
-				private tableService: TableService,
-				private fileService: FileService, 
-				private loaderService: LoaderService,
-				public dialog: MatDialog
-				) { }
+		private tableService: TableService,
+		private fileService: FileService, 
+		private loaderService: LoaderService,
+		public dialog: MatDialog
+	) { }
 
 	ngOnInit() {
     }

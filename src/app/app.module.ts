@@ -52,6 +52,7 @@ import { ExportQuestionListDialogComponent } from './shared/components/export-qu
 import { ImportdatadialogComponent } from './shared/components/importdatadialog/importdatadialog.component';
 import { LoginformComponent } from './modules/login/components/loginform/loginform.component';
 import { BubblesComponent } from './modules/login/components/bubbles/bubbles.component';
+import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
 
 import { UserService } from './shared/services/user.service';
 import { TableService } from './shared/services/table.service';
@@ -63,12 +64,14 @@ import { AnswerService } from './shared/services/answer.service';
 import { FileService } from './shared/services/file.service';
 import { LoaderService } from './shared/services/loader.service';
 import { AuthService } from './shared/services/auth.service';
+import { ApiService } from './shared/services/api.service';
 
 
 import { HttpService, applicationHttpClientCreator } from './shared/services/http.service';
 import {Interceptor} from "./inteceptor";
 import {TokenStorage} from "./token.storage";
-import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
+
+import { AuthGuard } from './shared/guard/auth.guard';
 
 @NgModule({
   declarations: [
@@ -136,8 +139,11 @@ import { PageNotFoundComponent } from './shared/components/page-not-found/page-n
     {
       provide: HTTP_INTERCEPTORS,
       useClass: Interceptor,
-      multi : true
-    }
+      multi : true,
+      useValue: localStorage
+    }, 
+    AuthGuard, 
+    ApiService
   ],
   bootstrap: [AppComponent]
 })

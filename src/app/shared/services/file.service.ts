@@ -5,15 +5,12 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
 import { HttpService } from './http.service';
 import { IRequestOptions } from '../models/iRequestOptions.model';
+import { ApiService } from './api.service';
 
 @Injectable()
 export class FileService {
 
-	private getQuestionPDFURL = "http://192.168.88.31:8080/exportRandomExamination";
-  private exportExamByInterviewCode = "http://192.168.88.31:8080/exportExamByInterviewCode";
-	private getAnswerPDFURL = "http://192.168.88.31:8080/exportanswerPDF/";
-  private uploadFileURL = 'http://192.168.88.31:8080/uploadfile';
-  constructor(private http: HttpService) { }
+  constructor(private http: HttpService, private api: ApiService) { }
 
  	getQuestionPDF(technical: string, interviewName: string, description: string) { 
       let formData: FormData = new FormData();
@@ -21,7 +18,7 @@ export class FileService {
       formData.append('interviewName', interviewName); 
       formData.append('description', description); 
       let req: IRequestOptions = { responseType: 'blob' };
-  		return this.http.post(this.getQuestionPDFURL, formData, req);
+  		return this.http.post(this.api.getQuestionPDFURL(), formData, req);
   	}
 
   exportExamByInterviewCodePDF(technical: string, interviewCode: string, questionList: string) { 
@@ -30,12 +27,12 @@ export class FileService {
       formData.append('interviewCode', interviewCode); 
       formData.append('questionList', questionList); 
       let req: IRequestOptions = { responseType: 'blob' };
-      return this.http.post(this.exportExamByInterviewCode, formData, req);
+      return this.http.post(this.api.exportExamByInterviewCode(), formData, req);
     }
 
   getAnswerPDF(interviewName: string) {  
       let req: IRequestOptions = { responseType: 'blob' };
-  		return this.http.get(this.getAnswerPDFURL+interviewName, req);      
+  		return this.http.get(this.api.getAnswerPDFURL()+interviewName, req);      
 	}
 
 	postFile(fileToUpload: File): Observable<boolean> {    	
@@ -43,7 +40,7 @@ export class FileService {
     	formData.append('file', fileToUpload, fileToUpload.name);
       let req: IRequestOptions = { responseType: 'blob' };
     	return this.http
-      		.post(this.uploadFileURL, formData,  req)
+      		.post(this.api.uploadFileURL(), formData,  req)
       		.map(() => { return true; });
 	}
 }

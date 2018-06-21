@@ -5,3 +5,19 @@
   min-width: 300px;
   overflow: auto;
 }
+
+.mat-table {
+  height: 800px;
+  overflow: scroll;
+}
+
+.toolBar{
+	background-color: rgb(229, 229, 229);
+	margin-right: 0;
+	margin-left: 0;
+
+}
+
+.button-row button{
+	margin-right: 5px;
+}

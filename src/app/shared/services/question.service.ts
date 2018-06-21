@@ -3,19 +3,18 @@ import { HttpClient } from '@angular/common/http';
 import { Question } from '../models/question.model';
 import { Observable } from 'rxjs/Observable';
 import { HttpService } from './http.service';
+import { ApiService } from './api.service';
 import { IRequestOptions } from '../models/iRequestOptions.model';
 
 @Injectable()
 export class QuestionService {
-  private getAllQuestionURL = "http://192.168.88.31:8080/getallquestions";
-  private getQuestionsByProgrammingLanguageURL = "http://192.168.88.31:8080/getQuestionsByProgrammingLanguage";
-  constructor(private http: HttpService) { }
+  constructor(private http: HttpService, private api: ApiService) { }
 
   getAllQuestions(): Observable<Question[]>{  
-  	return this.http.get<Question[]>(this.getAllQuestionURL);
+  	return this.http.get<Question[]>(this.api.getAllQuestionURL());
   }
 
   getQuestionsByProgrammingLanguage(language: string): Observable<Question[]>{  
-  	return this.http.get<Question[]>(this.getQuestionsByProgrammingLanguageURL + '/' + language);
+  	return this.http.get<Question[]>(this.api.getQuestionsByProgrammingLanguageURL() + '/' + language);
   }
 }
