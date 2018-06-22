@@ -1,23 +1,40 @@
 <div class="sidebar-sticky">
-  <ul class="nav flex-column">
-    <li>
-         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-          <span>Management</span>              
-        </h6>
-    </li>
+  <ul class="nav flex-column">      
+    <h6 class="mainTitle">
+      <span>Management</span>
+    </h6>            
   </ul>
   <ul class="nav flex-column side-menu">
     <li class="nav-item" *ngFor="let table of tables" [class.selected]="table === selectedTable" (click)="onSelect(table)">
-      <a class="nav-link active">
-        <i class="fa fa-dashboard fa-fw"></i>
-          <span> {{table.tableName}} </span>
-      </a>
-    </li>               
-  </ul>
+      <a *ngIf="table.tableName!=='Question'" class="nav-link active">
+          <mat-icon>poll</mat-icon><span> {{table.tableName}} </span>
+      </a> 
+      <mat-expansion-panel *ngIf="table.tableName=='Question'" style="background-color: #f8f8f8; box-shadow: 0 0 0 0;">
+        <mat-expansion-panel-header style="padding-left: 0;"  expandedHeight="40px" collapsedHeight="40px" [class.selected]="table === selectedTable" (click)="onSelect(table)">
+          <mat-panel-title>
+            <a class="nav-link active">
+                <mat-icon>poll</mat-icon><span> Questions </span>
+            </a>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
 
-  <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-    <span>File</span>              
-  </h6>
+        <ng-template matExpansionPanelContent >
+          <ul class="nav-item" *ngFor="let skill of skills" [class.selectedSkill]="skill.categoryName === selectedSkill" (click)="onSelectSkills(skill.categoryName,table)">
+            <a class="nav-link active">
+              <span> {{ skill.categoryName }} </span>
+            </a>
+          </ul>          
+        </ng-template>
+      </mat-expansion-panel>     
+    </li>                   
+  </ul>
+    
+<mat-divider></mat-divider>
+  <ul class="nav flex-column">
+    <h6 class="mainTitle">
+      <span>File</span>              
+    </h6>
+  </ul>  
   <ul class="nav flex-column mb-2 side-menu">
     <button mat-button class="text-left" (click)="openQuestionList()"> <i class="fa fa-download fa-fw"></i> <span> Export Question List </span>
     </button>

@@ -4,6 +4,7 @@ import { TABLES } from '../../mocks/mock-tables.mock';
 import { TableService } from '../../services/table.service';
 import { FileService } from '../../services/file.service';
 import { LoaderService } from '../../services/loader.service';
+import { CategoryService } from '../../services/category.service';
 
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ExportAnswerListDialogComponent } from '../export-answer-list-dialog/export-answer-list-dialog.component';
@@ -17,29 +18,50 @@ import { ImportdatadialogComponent } from '../importdatadialog/importdatadialog.
 })
 export class SidemenuComponent implements OnInit {
 
+	constructor(
+		private tableService: TableService,
+		private fileService: FileService, 
+		private loaderService: LoaderService,
+		private categoryService: CategoryService,
+		public dialog: MatDialog
+	){		
+    }
+
 	@Output() tablePicked = new EventEmitter<Table>();
-	
+	@Output() skillPicked = new EventEmitter<String>();
 	tables = TABLES;
 	technical: string;
 	interviewCode: string;
 	interviewName: string;
 	description: string;
 	selectedTable: Table = this.tables[0];
-
-	constructor(
-		private tableService: TableService,
-		private fileService: FileService, 
-		private loaderService: LoaderService,
-		public dialog: MatDialog
-	) { }
+	selectedSkill: String;
+	skills;
+	
 
 	ngOnInit() {
+		this.categoryService.getAllCategories().subscribe(results => {
+		        if(!results){
+		          return;
+		        }        
+		        this.skills = results;
+		      });	
     }
 
-	onSelect(table: Table): void {				
-		this.selectedTable = table;
-    	this.tablePicked.emit(table); 
-    	this.tableService.insertData(table);	    
+	onSelect(table: Table): void {			
+		this.selectedTable = table;	
+		if(table.tableName!=="Question"){
+			this.selectedSkill = '';			
+			this.tablePicked.emit(table); 
+    		this.tableService.insertData(table);
+		}    		    
+	}
+
+	onSelectSkills(skill: string, table: Table){
+		this.selectedSkill = skill;
+		this.tablePicked.emit(table); 
+		this.skillPicked.emit(skill)
+    	this.tableService.insertData(table);    	
 	}
 
 	openAnswerList() {

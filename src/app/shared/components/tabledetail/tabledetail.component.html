@@ -4,16 +4,6 @@
 	    <button mat-raised-button>Basic</button>
 	    <button mat-raised-button>Basic</button>
 	  	<button mat-raised-button>Basic</button>
-
-	  	<form *ngIf="tableName=='Question'" style="float: left; padding-right: 15px;">
-		  <mat-form-field>
-		    <mat-select placeholder="Choose programming language" [(ngModel)]="selectedValue"  (ngModelChange)="changeLanguage()" name="language">
-		      <mat-option *ngFor="let language of languages" [value]="language.categoryName">
-		        {{language.categoryName}}
-		      </mat-option>
-		    </mat-select>
-		  </mat-form-field>
-		</form>
 	</div>
   </div>
   <div class="col-6 col-md-2">
@@ -58,7 +48,7 @@
 	</mat-table>
 	<mat-paginator #paginator
                  [pageSize]="10"
-                 [pageSizeOptions]="[5, 10, 20]"
+                 [pageSizeOptions]="[5, 10, 20, 50, 100]"
                  [showFirstLastButtons]="true">
   	</mat-paginator>
 </div>

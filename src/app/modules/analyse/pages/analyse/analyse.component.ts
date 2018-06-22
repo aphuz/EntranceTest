@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Table } from '../../../../shared/models/table.model';
-import {TokenStorage} from '../../../../token.storage';
-import {Router} from '@angular/router';
-import {AuthService} from '../../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-analyse',
@@ -12,8 +9,9 @@ import {AuthService} from '../../../../shared/services/auth.service';
 export class AnalyseComponent implements OnInit {
 
 	tableName: String = "User";
+  skillName: String;
   show: boolean = true;
-  constructor(private router: Router, private token: TokenStorage, private authService: AuthService) { }
+  constructor() { }
 
   ngOnInit() {
   }
@@ -21,8 +19,7 @@ export class AnalyseComponent implements OnInit {
   	this.tableName = table.tableName;
   }
 
-  logout(){
-    this.token.signOut();
-    this.router.navigate(['login']);
+  changeSkill(skill: String){
+    this.skillName = skill;
   }
 }

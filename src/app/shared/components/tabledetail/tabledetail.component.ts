@@ -21,6 +21,7 @@ import { TABLES } from '../../mocks/mock-tables.mock';
 })
 export class TabledetailComponent implements OnInit {
  	@Input() tableName : String;
+  @Input() skillName : string;
  	@ViewChild(MatSort) sort: MatSort;
  	@ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -32,9 +33,7 @@ export class TabledetailComponent implements OnInit {
   
  	dataSource;
  	displayedColumns = TABLES[0].columns;
-  selectedValue: string;
   columnsName = TABLES[0].columnName;
-  languages;
   constructor( private userService: UserService, 
                private tableService: TableService,
                private categoryService: CategoryService,
@@ -61,13 +60,11 @@ export class TabledetailComponent implements OnInit {
         this.selection.clear() :
         this.dataSource.data.forEach(row => this.selection.select(row));
   }
+
   ngOnInit() {
 		this.getUsers();
 	}
 
-  changeLanguage(){
-    this.getQuestions(this.selectedValue);
-  }
   ngOnChanges(changes: SimpleChanges) {    
     if(this.tableService.table){
       this.displayedColumns = this.tableService.table.columns;
@@ -90,8 +87,8 @@ export class TabledetailComponent implements OnInit {
           if(!results){
             return;
           }        
-          this.languages = results;
         });
+        this.getQuestions(this.skillName);
         this.dataSource = new MatTableDataSource();
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;

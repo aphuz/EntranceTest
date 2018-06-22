@@ -1,0 +1,35 @@
+/* Set black background color, white text and some padding */
+header {
+  background-color: #555;
+  color: white;
+}
+
+.nameCompany{
+	padding-left: 0px;
+	display: flex;
+    align-items: center;
+}
+
+.nameCompany a {
+	float: left; 
+	padding: 14px 16px; 
+	text-decoration: none;
+}
+
+.nameCompany span {
+	color: #fff;
+    text-transform: uppercase;
+    font-family: "Roboto Mono",monospace;
+}
+.inputSearch {
+  flex: 1 !important;
+}
+.inputSearch input{
+  padding: 14px 16px;
+  background-color: #495057; 
+  border: 0;
+}
+
+input[type="text"]:focus {
+  background-color: white;
+}
