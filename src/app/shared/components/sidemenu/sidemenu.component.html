@@ -7,13 +7,13 @@
   <ul class="nav flex-column side-menu">
     <li class="nav-item" *ngFor="let table of tables" [class.selected]="table === selectedTable" (click)="onSelect(table)">
       <a *ngIf="table.tableName!=='Question'" class="nav-link active">
-          <mat-icon>poll</mat-icon><span> {{table.tableName}} </span>
+          <mat-icon>storage</mat-icon><span> {{table.tableName}} </span>
       </a> 
       <mat-expansion-panel *ngIf="table.tableName=='Question'" style="background-color: #f8f8f8; box-shadow: 0 0 0 0;">
         <mat-expansion-panel-header style="padding-left: 0;"  expandedHeight="40px" collapsedHeight="40px" [class.selected]="table === selectedTable" (click)="onSelect(table)">
           <mat-panel-title>
             <a class="nav-link active">
-                <mat-icon>poll</mat-icon><span> Questions </span>
+                <mat-icon>storage</mat-icon><span> Questions </span>
             </a>
           </mat-panel-title>
         </mat-expansion-panel-header>

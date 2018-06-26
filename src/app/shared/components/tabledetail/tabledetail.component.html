@@ -1,54 +1,71 @@
 <div class="row toolBar" >
-  <div class="col-12 col-md-10" style="display: flex; align-items: center;"> 	
-	<div class="button-row" style="display: flex; align-items: center;">		
-	    <button mat-raised-button>Basic</button>
-	    <button mat-raised-button>Basic</button>
-	  	<button mat-raised-button>Basic</button>
+  	<div class="col-md-10"> 	
+		<div class="button-row" style="display: flex; align-items: center;">		
+		    <button mat-raised-button>Basic</button>
+		    <button mat-raised-button>Basic</button>
+		  	<button mat-raised-button>Basic</button>
+		</div>
+  	</div>
+  	<div class="col-md-2" style="padding-right: 0;">
+		<input class="form-control" (keyup)="applyFilter($event.target.value)" style="max-width: 100%;" placeholder="Filter...">
+  	</div>
+	<div class="col">
+		<mat-table [dataSource]="dataSource" matSort>
+			
+			<ng-container *ngFor="let col of displayedColumns,let j=index" matColumnDef={{col}}>
+				<div *ngIf="col!=='select'&&col!=='update'">
+					<mat-header-cell *matHeaderCellDef mat-sort-header> 
+				    		{{ columnsName[j] }}
+					</mat-header-cell>
+				</div>
+				<div *ngIf="col=='select'">
+					<mat-header-cell *matHeaderCellDef> 
+						<mat-checkbox (change)="$event ? masterToggle() : null"
+			                    [checked]="selection.hasValue() && isAllSelected()"
+			                    [indeterminate]="selection.hasValue() && !isAllSelected()">
+			      		</mat-checkbox>
+		      		</mat-header-cell>
+				</div>
+			    <div *ngIf="col=='update'">
+					<mat-header-cell *matHeaderCellDef> 
+
+					</mat-header-cell>
+				</div>
+
+			    <mat-cell  *matCellDef="let row; let i = index"> 
+			    	{{row[col]}}
+			    	<div *ngIf="tableName=='Interview' && col=='download'">
+			    		<mat-icon matTooltip="Export Examination" (click)="exportExam(i)" >view_list</mat-icon>
+			    		<mat-icon matTooltip="Export Answer List" (click)="exportAnswer(row['interviewCode'])">list_alt</mat-icon>
+			    	</div>	
+			    	<div *ngIf="col=='select'">
+			    		<mat-checkbox (click)="$event.stopPropagation()"
+			                    (change)="$event ? selection.toggle(row) : null"
+			                    [checked]="selection.isSelected(row)">
+			      		</mat-checkbox>
+			    	</div>
+			    	<div *ngIf="col=='update'">
+			    		<mat-icon matTooltip="Edit">edit</mat-icon>
+			    		<mat-icon matTooltip="Delete">delete</mat-icon>
+			    	</div>	    	
+			    </mat-cell>
+		    </ng-container>
+			<mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></mat-header-row>
+			<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+		</mat-table>
 	</div>
-  </div>
-  <div class="col-6 col-md-2">
-	<mat-form-field style="width: 100%;">
-		<input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-	</mat-form-field>
-  </div>
+	<div class="w-100"></div>
+	<mat-divider></mat-divider>
+
+	<div class="col">
+	 	<mat-paginator  #paginator
+	                 [pageSize]="10"
+	                 [pageSizeOptions]="[5, 10, 20, 50, 100]"
+	                 [showFirstLastButtons]="true">
+		</mat-paginator>
+	</div>
 </div>
 
-<div class="" >	
-	<mat-table [dataSource]="dataSource" matSort>		
-		<ng-container *ngFor="let col of displayedColumns,let j=index" matColumnDef={{col}}>
-		    <mat-header-cell *matHeaderCellDef mat-sort-header> 
-		    	<div *ngIf="col!=='select'">
-		    		{{ columnsName[j] }}
-		    	</div>
-		    	<div *ngIf="col=='select'">
-		    		<mat-checkbox (change)="$event ? masterToggle() : null"
-                    [checked]="selection.hasValue() && isAllSelected()"
-                    [indeterminate]="selection.hasValue() && !isAllSelected()">
-      				</mat-checkbox>
-		    	</div>
-			</mat-header-cell>
 
-		    <mat-cell  *matCellDef="let row; let i = index"> 
-		    	{{row[col]}}
-		    	<div *ngIf="tableName=='Interview' && col=='download'">
-		    		<button color="primary" (click)="exportExam(i)" mat-raised-button>Export Exam</button>
-		    		<button color="primary" (click)="exportAnswer(row['interviewCode'])" mat-raised-button>Export Answer</button>
-		    	</div>	
-		    	<div *ngIf="col=='select'">
-		    		<mat-checkbox (click)="$event.stopPropagation()"
-		                    (change)="$event ? selection.toggle(row) : null"
-		                    [checked]="selection.isSelected(row)">
-		      		</mat-checkbox>
-		    	</div>	    	
-		    </mat-cell>
-	    </ng-container>
 
-		<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-		<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-	</mat-table>
-	<mat-paginator #paginator
-                 [pageSize]="10"
-                 [pageSizeOptions]="[5, 10, 20, 50, 100]"
-                 [showFirstLastButtons]="true">
-  	</mat-paginator>
-</div>
+
