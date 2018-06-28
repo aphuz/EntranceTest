@@ -10,21 +10,13 @@
         <div class="inputSearch" tabindex="1">
 <!--                <input class="form-control-dark w-100" type="text" placeholder="Search..." aria-label="Search">     
  -->        </div>
-        <ul class="nav navbar-nav navbar-right" style="padding: 14px 16px;">
-            <li class="dropdown" style="cursor: pointer;">
-                <a class="dropdown-toggle" data-toggle="dropdown">
-                    My Account <i class="fa fa-user fa-fw"></i> 
-                </a>
-                <ul class="dropdown-menu dropdown-user" style="margin-left: -15px;">
-                    <li><a ><i class="fa fa-user fa-fw"></i> User Profile</a>
-                    </li>
-                    <li><a ><i class="fa fa-gear fa-fw"></i> Settings</a>
-                    </li>
-                    <li class="divider"></li>
-                    <li><a  (click)="logout()"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                    </li>
-                </ul>
-            </li>
-        </ul>       
+        <div class="myAccount">
+            <button mat-button [matMenuTriggerFor]="menu"><mat-icon>person</mat-icon>  My Account</button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item>User Profile</button>
+              <button mat-menu-item>Settings</button>
+              <button mat-menu-item (click)="logout()">Logout</button>
+            </mat-menu>
+        </div>    
     </ul>
 </header>

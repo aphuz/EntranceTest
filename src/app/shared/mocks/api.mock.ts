@@ -12,5 +12,7 @@ export const APIs: Api[] = [
   { id: 9, name: 'getAllKindURL', url: '/getallkinds', description: "Get all kinds" },
   { id: 10, name: 'getQuestionsByProgrammingLanguageURL', url: '/getQuestionsByProgrammingLanguage', description: "Get questions" },
   { id: 11, name: 'getAllQuestionURL', url: '/getallquestions', description: "Get all questions" },
-  { id: 12, name: 'getAllUserURL', url: '/getallusers', description: "Get all user" }
+  { id: 12, name: 'getAllUserURL', url: '/getallusers', description: "Get all user" },
+  { id: 13, name: 'deleteUserById', url: '/delete', description: "Delete user by ID" },
+  { id: 14, name: 'deleteInterviewById', url: '/deleteinterview', description: "Delete interview by ID" }
   ];

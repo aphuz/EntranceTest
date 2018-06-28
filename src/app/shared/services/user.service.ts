@@ -13,4 +13,9 @@ export class UserService {
   getAllUsers(): Observable<User[]>{  
   	return this.http.get<User[]>(this.api.getAllUserURL());
   }
+
+  deleteUserById(id: number) {  
+  	let req: IRequestOptions = { responseType: 'text' };
+  	return this.http.delete(this.api.deleteUserById() + '/' + id, req);
+  }
 }

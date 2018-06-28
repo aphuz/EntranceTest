@@ -10,6 +10,7 @@ import { QuestionService } from '../../services/question.service';
 import { AnswerService } from '../../services/answer.service';
 import { FileService } from '../../services/file.service';
 import {SelectionModel} from '@angular/cdk/collections';
+import {FormBuilder, FormGroup} from '@angular/forms';
 
 import { Table } from '../../models/table.model';
 import { TABLES } from '../../mocks/mock-tables.mock';
@@ -191,6 +192,47 @@ export class TabledetailComponent implements OnInit {
                   });
 
     }
+  }
+
+  deleteRecord(row: Object){
+    if(this.tableName == 'User'){
+      this.userService.deleteUserById(row['id']).subscribe(results => {
+        if(!results){
+          return;
+        }               
+        const itemIndex = this.dataSource.data.findIndex(obj => obj['id'] === row['id']);
+        this.dataSource.data.splice(itemIndex, 1);
+        this.dataSource.paginator = this.paginator;
+        alert("Delete Successfully");
+      });
+    }
+    else if(this.tableName == 'Interview'){
+      this.interviewService.deleteInterviewById(row['interviewId']).subscribe(results => {
+        if(!results){
+          return;
+        }        
+        const itemIndex = this.dataSource.data.findIndex(obj => obj['interviewId'] === row['interviewId']);
+        this.dataSource.data.splice(itemIndex, 1);
+        this.dataSource.paginator = this.paginator;
+        alert("Delete Successfully");
+      });
+    }
+    else if(this.tableName == 'Question'){
+      this.interviewService.deleteInterviewById(row['questionId']).subscribe(results => {
+        if(!results){
+          return;
+        }        
+        const itemIndex = this.dataSource.data.findIndex(obj => obj['questionId'] === row['questionId']);
+        this.dataSource.data.splice(itemIndex, 1);
+        this.dataSource.paginator = this.paginator;
+        alert("Delete Successfully");
+      });
+    }
+
+  }
+
+  editRecord(row: Object){
+
   }
 
 }

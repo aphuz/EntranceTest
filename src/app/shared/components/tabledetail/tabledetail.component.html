@@ -45,8 +45,8 @@
 			      		</mat-checkbox>
 			    	</div>
 			    	<div *ngIf="col=='update'">
-			    		<mat-icon matTooltip="Edit">edit</mat-icon>
-			    		<mat-icon matTooltip="Delete">delete</mat-icon>
+			    		<mat-icon matTooltip="Edit" (click)="editRecord(row)">edit</mat-icon>
+			    		<mat-icon matTooltip="Delete" (click)="deleteRecord(row)">delete</mat-icon>
 			    	</div>	    	
 			    </mat-cell>
 		    </ng-container>

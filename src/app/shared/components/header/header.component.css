@@ -7,7 +7,7 @@ header {
 .nameCompany{
 	padding-left: 0px;
 	display: flex;
-    align-items: center;
+  align-items: center;
 }
 
 .nameCompany a {
@@ -18,8 +18,8 @@ header {
 
 .nameCompany span {
 	color: #fff;
-    text-transform: uppercase;
-    font-family: "Roboto Mono",monospace;
+  text-transform: uppercase;
+  font-family: "Roboto Mono",monospace;
 }
 .inputSearch {
   flex: 1 !important;
@@ -32,4 +32,13 @@ header {
 
 input[type="text"]:focus {
   background-color: white;
+}
+
+.myAccount {
+  display: flex;
+  align-items: center;
+}
+
+.myAccount button{
+  outline: none !important;
 }

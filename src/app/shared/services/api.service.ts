@@ -56,5 +56,13 @@ export class ApiService {
   getAllUserURL(){
   	return this.serverIP + APIs[11].url;
   }
+
+  deleteUserById(){
+    return this.serverIP + APIs[12].url;
+  }
+
+  deleteInterviewById(){
+    return this.serverIP + APIs[13].url;
+  }
 }
 

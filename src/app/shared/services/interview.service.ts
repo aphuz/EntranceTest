@@ -13,4 +13,9 @@ export class InterviewService {
   getAllInterviews(): Observable<Interview[]>{  
   	return this.http.get<Interview[]>(this.api.getAllInterviewURL());
   }
+  
+  deleteInterviewById(id: number) {  
+  	let req: IRequestOptions = { responseType: 'text' };
+  	return this.http.delete(this.api.deleteInterviewById() + '/' + id, req);
+  }
 }

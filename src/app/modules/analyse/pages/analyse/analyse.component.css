@@ -25,12 +25,19 @@ footer {
 }
 
 /* On small screens, set height to 'auto' for sidenav and grid */
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 800px) {
   .sidenav {
     height: auto;
+    min-width: 1600px !important;
   }
   .row.content {height: auto;} 
 }
+
+@media screen and (min-width: 900px) {
+     .col-md-2 {
+       min-width: 1600px !important;
+     }
+   }
 
 .topnav a {
     float: left;
