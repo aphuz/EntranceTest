@@ -11,6 +11,7 @@ import { AnswerService } from '../../services/answer.service';
 import { FileService } from '../../services/file.service';
 import {SelectionModel} from '@angular/cdk/collections';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import { ChangeDetectorRef } from '@angular/core';
 
 import { Table } from '../../models/table.model';
 import { TABLES } from '../../mocks/mock-tables.mock';
@@ -21,7 +22,7 @@ import { TABLES } from '../../mocks/mock-tables.mock';
   styleUrls: ['./tabledetail.component.css']
 })
 export class TabledetailComponent implements OnInit {
- 	@Input() tableName : String;
+ 	@Input() tableName : string;
   @Input() skillName : string;
  	@ViewChild(MatSort) sort: MatSort;
  	@ViewChild(MatPaginator) paginator: MatPaginator;
@@ -30,11 +31,8 @@ export class TabledetailComponent implements OnInit {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.dataSource.filter = filterValue;
-  }
-  
- 	dataSource;
- 	displayedColumns = TABLES[0].columns;
-  columnsName = TABLES[0].columnName;
+  }  
+ 	
   constructor( private userService: UserService, 
                private tableService: TableService,
                private categoryService: CategoryService,
@@ -42,31 +40,51 @@ export class TabledetailComponent implements OnInit {
                private interviewService: InterviewService,
                private questionService: QuestionService,
                private answerService: AnswerService,
-               private fileService: FileService
+               private fileService: FileService,
+               private cdRef:ChangeDetectorRef
 
                ) { }
-
+  dataSource;
+  displayedColumns = TABLES[0].columns;
+  columnsName = TABLES[0].columnName;
   selection = new SelectionModel(true, []);
-
+  selectedIds;
+  status: boolean = true;
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
+    this.status = false;
     return numSelected === numRows;
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
     this.isAllSelected() ?
-        this.selection.clear() :
+        (this.selection.clear(), this.status = true) :
         this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
+  clickCheckBox(event: any){
+    event.stopPropagation();
+    
+  }
+  ngAfterViewChecked()
+  {
+    if(this.selection.selected.length > 0){
+      this.status = false;
+    }
+    else {
+      this.status = true;
+    }
+    this.cdRef.detectChanges();
+    
+  }
   ngOnInit() {
-		this.getUsers();
 	}
 
-  ngOnChanges(changes: SimpleChanges) {    
+  ngOnChanges(changes: SimpleChanges) {
+    this.selection = new SelectionModel(true, []);
     if(this.tableService.table){
       this.displayedColumns = this.tableService.table.columns;
       this.columnsName = this.tableService.table.columnName;
@@ -166,9 +184,7 @@ export class TabledetailComponent implements OnInit {
   }
 
   exportExam(row: number): void {
-    console.log(this.dataSource.filteredData[row])
     let interview =  this.dataSource.filteredData[row];
-
     if(interview != undefined && interview.interviewCode != "" && interview.technical != "" && interview.questionList != ""){
           this.fileService.exportExamByInterviewCodePDF(interview.technical, interview.interviewCode, interview.questionList).subscribe(
             (res) => {    
@@ -194,45 +210,64 @@ export class TabledetailComponent implements OnInit {
     }
   }
 
-  deleteRecord(row: Object){
-    if(this.tableName == 'User'){
-      this.userService.deleteUserById(row['id']).subscribe(results => {
-        if(!results){
-          return;
-        }               
-        const itemIndex = this.dataSource.data.findIndex(obj => obj['id'] === row['id']);
-        this.dataSource.data.splice(itemIndex, 1);
-        this.dataSource.paginator = this.paginator;
-        alert("Delete Successfully");
+  delete(){
+    this.selectedIds = new Array();
+    if(this.selection.selected.length > 0){
+      if(confirm("Do you want to delete selected record(s)?" )){
+        if(!this.isAllSelected()){
+          this.selection.selected.forEach(element => {
+            this.selectedIds.push(element[this.displayedColumns[1]]); 
+          }); 
+        }    
+        this.tableService.deleteRecord(this.tableName, this.selectedIds).subscribe(results => {
+          if(!results){
+            return;
+          }
+          this.selection.selected.forEach(element => {
+            let itemIndex = this.dataSource.data.findIndex(obj => obj[this.displayedColumns[1]] === element[this.displayedColumns[1]]);        
+            this.dataSource.data.splice(itemIndex, 1);        
+          }); 
+                        
+          this.selection = new SelectionModel<Element>(true, []);      
+          this.dataSource.paginator = this.paginator;
+          alert("Delete Successfully");
       });
     }
-    else if(this.tableName == 'Interview'){
-      this.interviewService.deleteInterviewById(row['interviewId']).subscribe(results => {
-        if(!results){
-          return;
-        }        
-        const itemIndex = this.dataSource.data.findIndex(obj => obj['interviewId'] === row['interviewId']);
-        this.dataSource.data.splice(itemIndex, 1);
-        this.dataSource.paginator = this.paginator;
-        alert("Delete Successfully");
-      });
-    }
-    else if(this.tableName == 'Question'){
-      this.interviewService.deleteInterviewById(row['questionId']).subscribe(results => {
-        if(!results){
-          return;
-        }        
-        const itemIndex = this.dataSource.data.findIndex(obj => obj['questionId'] === row['questionId']);
-        this.dataSource.data.splice(itemIndex, 1);
-        this.dataSource.paginator = this.paginator;
-        alert("Delete Successfully");
-      });
-    }
+  }  
+}
 
+  deleteRecord(row: Object){
+    if(confirm("Do you want to delete record ID: " + row[this.displayedColumns[1]])){
+      if(this.tableName == 'User'){
+        this.userService.deleteUserById(row['id']).subscribe(results => {
+          if(!results){
+            return;
+          }              
+        });
+      }
+      else if(this.tableName == 'Interview'){
+        this.interviewService.deleteInterviewById(row['interviewId']).subscribe(results => {
+          if(!results){
+            return;
+          }       
+        });
+      }
+      else if(this.tableName == 'Question'){
+        this.questionService.deleteQuestionById(row['questionId']).subscribe(results => {
+          if(!results){
+            return;
+          }               
+        });
+      }
+      let itemIndex = this.dataSource.data.findIndex(obj => obj[this.displayedColumns[1]] === row[this.displayedColumns[1]]);
+      this.dataSource.data.splice(itemIndex, 1);
+      this.dataSource.paginator = this.paginator;
+      alert("Delete Successfully");
+    }   
   }
 
   editRecord(row: Object){
-
+    alert(111)
   }
 
 }

@@ -64,5 +64,13 @@ export class ApiService {
   deleteInterviewById(){
     return this.serverIP + APIs[13].url;
   }
+
+  deleteQuestionById(){
+    return this.serverIP + APIs[15].url;
+  }
+
+  deleteAllRecords(){
+    return this.serverIP + APIs[14].url;
+  }
 }
 

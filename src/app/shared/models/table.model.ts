@@ -1,6 +1,6 @@
 export interface Table {
   id: number;
-  tableName: String;
-  columnName: String[];
-  columns: String[];
+  tableName: string;
+  columnName: string[];
+  columns: string[];
 }

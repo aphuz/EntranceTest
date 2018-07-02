@@ -17,4 +17,9 @@ export class QuestionService {
   getQuestionsByProgrammingLanguage(language: string): Observable<Question[]>{  
   	return this.http.get<Question[]>(this.api.getQuestionsByProgrammingLanguageURL() + '/' + language);
   }
+
+  deleteQuestionById(id: number) {  
+  	let req: IRequestOptions = { responseType: 'text' };
+  	return this.http.delete(this.api.deleteQuestionById() + '/' + id, req);
+  }
 }

@@ -14,5 +14,7 @@ export const APIs: Api[] = [
   { id: 11, name: 'getAllQuestionURL', url: '/getallquestions', description: "Get all questions" },
   { id: 12, name: 'getAllUserURL', url: '/getallusers', description: "Get all user" },
   { id: 13, name: 'deleteUserById', url: '/delete', description: "Delete user by ID" },
-  { id: 14, name: 'deleteInterviewById', url: '/deleteinterview', description: "Delete interview by ID" }
+  { id: 14, name: 'deleteInterviewById', url: '/deleteinterview', description: "Delete interview by ID" },
+  { id: 15, name: 'deleteAllRecords', url: '/deleteAllRecords', description: "Delete (all) records in table" },
+  { id: 16, name: 'deleteQuestionById', url: '/deletequestion', description: "Delete question by ID" }
   ];
