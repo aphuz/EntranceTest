@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TokenStorage } from '../../../token.storage';
+import { TokenStorage } from '../../../../token.storage';
 import { Router } from '@angular/router';
 
 @Component({

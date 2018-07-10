@@ -1,0 +1,15 @@
+<div>
+  <h1 mat-dialog-title> {{status}}</h1>
+  <form (ngSubmit)="onSubmit()" [formGroup]="form">   
+    <div *ngFor="let entity of entities" class="form-row">
+      <app-dynamic-form-entity [entity]="entity" [form]="form"></app-dynamic-form-entity>
+    </div>  
+    <div mat-dialog-actions class="form-row">
+        <button mat-button [mat-dialog-close] (click)="onNoClick()">No Thanks</button>
+        <button mat-button type="submit" (click)="onSubmit()" [disabled]="!form.valid" cdkFocusInitial>Ok</button>
+    </div>
+</form>
+  <div *ngIf="payLoad" class="form-row">
+    <strong>Saved the following values</strong><br>{{payLoad}}
+  </div>
+</div>

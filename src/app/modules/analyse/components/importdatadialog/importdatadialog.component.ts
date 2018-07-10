@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import { FileService } from '../../services/file.service';
-import { LoaderService } from '../../services/loader.service';
+import { FileService } from '../../../../shared/services/file.service';
+import { LoaderService } from '../../../../shared/services/loader.service';
 
 @Component({
   selector: 'app-importdatadialog',

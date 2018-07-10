@@ -1,10 +1,10 @@
 <div class="row toolBar">
   	<div class="col-md-10"> 	
 		<div class="button-row">		
-		    <button mat-raised-button matTooltip="Add new Record" class="buttonHover">
-					<mat-icon>add_box</mat-icon> Add
+		    <button mat-raised-button matTooltip="Add new Record" (click)="add()"  [disabled]="tableName === 'Interview'" [class.buttonHover]="tableName !== 'Interview'">
+					<mat-icon>add_box</mat-icon> Add 
 			</button>
-		    <button mat-raised-button matTooltip="Delete Records" (click)="delete()" disabled="{{status}}"[class.buttonHover]="status === false"> 
+		    <button mat-raised-button matTooltip="Delete Records" (click)="delete()" disabled="{{status}}" [class.buttonHover]="status === false"> 
 				<mat-icon>delete_sweep</mat-icon> Delete</button>
 		</div>
   	</div>
@@ -22,7 +22,7 @@
 			</div>
 			<div *ngIf="col=='select'">
 				<mat-header-cell *matHeaderCellDef> 
-					<mat-checkbox (change)="$event ? masterToggle() : null"
+					<mat-checkbox  color="accent" (change)="$event ? masterToggle() : null"
 							[checked]="selection.hasValue() && isAllSelected()"
 							[indeterminate]="selection.hasValue() && !isAllSelected()">
 					</mat-checkbox>
@@ -37,11 +37,11 @@
 			<mat-cell  *matCellDef="let row; let i = index"> 
 				{{row[col]}}
 				<div *ngIf="tableName=='Interview' && col=='download'">
-					<mat-icon matTooltip="Export Examination" (click)="exportExam(i)" >view_list</mat-icon>
+					<mat-icon matTooltip="Export Examination" (click)="exportExam(row)" >view_list</mat-icon>
 					<mat-icon matTooltip="Export Answer List" (click)="exportAnswer(row['interviewCode'])">list_alt</mat-icon>
 				</div>	
 				<div *ngIf="col=='select'">
-					<mat-checkbox (click)="$event.stopPropagation()"
+					<mat-checkbox color="accent" (click)="$event.stopPropagation()"
 							(change)="$event ? selection.toggle(row) : null"
 							[checked]="selection.isSelected(row)">
 					</mat-checkbox>

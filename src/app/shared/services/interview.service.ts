@@ -5,6 +5,9 @@ import { Observable } from 'rxjs/Observable';
 import { HttpService } from './http.service';
 import { IRequestOptions } from '../models/iRequestOptions.model';
 import { ApiService } from './api.service';
+import { DropdownBase } from '../models/base-dropdown';
+import { EntityBase }     from '../models/entity-base';
+import { TextboxBase }  from '../models/base-textbox';
 
 @Injectable()
 export class InterviewService {
@@ -17,5 +20,10 @@ export class InterviewService {
   deleteInterviewById(id: number) {  
   	let req: IRequestOptions = { responseType: 'text' };
   	return this.http.delete(this.api.deleteInterviewById() + '/' + id, req);
+  }
+
+  update(interview: Interview){
+    let req: IRequestOptions = { responseType: 'text' };
+  	return this.http.put(this.api.updateInterview(), interview, req);
   }
 }

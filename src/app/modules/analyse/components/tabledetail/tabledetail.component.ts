@@ -1,20 +1,28 @@
 import { Component, OnInit, Input, ViewChild, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { MatSort, MatSortable, MatTableDataSource, MatPaginator } from '@angular/material';
-import { UserService } from '../../services/user.service';
-import { TableService } from '../../services/table.service';
-import { CategoryService } from '../../services/category.service';
-import { KindService } from '../../services/kind.service';
-import { InterviewService } from '../../services/interview.service';
-import { QuestionService } from '../../services/question.service';
-import { AnswerService } from '../../services/answer.service';
-import { FileService } from '../../services/file.service';
-import {SelectionModel} from '@angular/cdk/collections';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import { UserService } from '../../../../shared/services/user.service';
+import { TableService } from '../../../../shared/services/table.service';
+import { CategoryService } from '../../../../shared/services/category.service';
+import { KindService } from '../../../../shared/services/kind.service';
+import { InterviewService } from '../../../../shared/services/interview.service';
+import { QuestionService } from '../../../../shared/services/question.service';
+import { AnswerService } from '../../../../shared/services/answer.service';
+import { FileService } from '../../../../shared/services/file.service';
+import { SelectionModel } from '@angular/cdk/collections';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
 
-import { Table } from '../../models/table.model';
-import { TABLES } from '../../mocks/mock-tables.mock';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { UpdaterecorddialogComponent } from '../updaterecorddialog/updaterecorddialog.component';
+import { AddrecorddialogComponent } from '../addrecorddialog/addrecorddialog.component';
+
+import { Table } from '../../../../shared/models/table.model';
+import { User } from '../../../../shared/models/user.model';
+import { Question } from '../../../../shared/models/question.model';
+import { Interview } from '../../../../shared/models/interview.model';
+
+import { TABLES } from '../../../../shared/mocks/mock-tables.mock';
 
 @Component({
   selector: 'app-tabledetail',
@@ -41,14 +49,14 @@ export class TabledetailComponent implements OnInit {
                private questionService: QuestionService,
                private answerService: AnswerService,
                private fileService: FileService,
-               private cdRef:ChangeDetectorRef
-
+               private cdRef:ChangeDetectorRef,
+               public dialog: MatDialog
                ) { }
-  dataSource;
+  dataSource: any;
   displayedColumns = TABLES[0].columns;
   columnsName = TABLES[0].columnName;
   selection = new SelectionModel(true, []);
-  selectedIds;
+  selectedIds: any;
   status: boolean = true;
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -183,10 +191,10 @@ export class TabledetailComponent implements OnInit {
       });
   }
 
-  exportExam(row: number): void {
-    let interview =  this.dataSource.filteredData[row];
-    if(interview != undefined && interview.interviewCode != "" && interview.technical != "" && interview.questionList != ""){
-          this.fileService.exportExamByInterviewCodePDF(interview.technical, interview.interviewCode, interview.questionList).subscribe(
+  exportExam(interview: any): void {
+    if(interview != undefined && interview.interviewCode != "" && interview.categoryName != "" && interview.questionList != ""){
+      console.log(interview.technical)
+          this.fileService.exportExamByInterviewCodePDF(interview.categoryName, interview.interviewCode, interview.questionList).subscribe(
             (res) => {    
               console.log(res)        
               let file = new Blob([res], { type: 'application/pdf' });            
@@ -231,10 +239,10 @@ export class TabledetailComponent implements OnInit {
           this.selection = new SelectionModel<Element>(true, []);      
           this.dataSource.paginator = this.paginator;
           alert("Delete Successfully");
-      });
-    }
-  }  
-}
+        });
+      }
+    }  
+  }
 
   deleteRecord(row: Object){
     if(confirm("Do you want to delete record ID: " + row[this.displayedColumns[1]])){
@@ -267,7 +275,30 @@ export class TabledetailComponent implements OnInit {
   }
 
   editRecord(row: Object){
-    alert(111)
+    let dialogRef = this.dialog.open(UpdaterecorddialogComponent, {
+      data: { record: row, status: "Update", tableName: this.tableName }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+    });
+  }
+
+  add(){
+    let  entities: any[];
+    if(this.tableName == "User"){
+      entities = this.userService.getUsers();
+    }   
+    else if(this.tableName == "Question"){
+      entities = this.questionService.getQuestions();
+    }
+    let dialogRef = this.dialog.open(AddrecorddialogComponent, {
+
+      data: { entities: entities, status: "Add", tableName: this.tableName}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+    });
   }
 
 }

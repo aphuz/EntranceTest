@@ -44,15 +44,19 @@ import { AppRoutingModule } from './/app-routing.module';
 
 import { LoginComponent } from './modules/login/pages/login/login.component';
 import { AnalyseComponent } from './modules/analyse/pages/analyse/analyse.component';
-import { SidemenuComponent } from './shared/components/sidemenu/sidemenu.component';
-import { TabledetailComponent } from './shared/components/tabledetail/tabledetail.component';
-import { HeaderComponent } from './shared/components/header/header.component';
-import { ExportAnswerListDialogComponent } from './shared/components/export-answer-list-dialog/export-answer-list-dialog.component';
-import { ExportQuestionListDialogComponent } from './shared/components/export-question-list-dialog/export-question-list-dialog.component';
-import { ImportdatadialogComponent } from './shared/components/importdatadialog/importdatadialog.component';
+import { SidemenuComponent } from './modules/analyse/components/sidemenu/sidemenu.component';
+import { TabledetailComponent } from './modules/analyse/components/tabledetail/tabledetail.component';
+import { HeaderComponent } from './modules/analyse/components/header/header.component';
+import { ExportAnswerListDialogComponent } from './modules/analyse/components/export-answer-list-dialog/export-answer-list-dialog.component';
+import { ExportQuestionListDialogComponent } from './modules/analyse/components/export-question-list-dialog/export-question-list-dialog.component';
+import { ImportdatadialogComponent } from './modules/analyse/components/importdatadialog/importdatadialog.component';
+import { UpdaterecorddialogComponent } from './modules/analyse/components/updaterecorddialog/updaterecorddialog.component';
+import { AddrecorddialogComponent } from './modules/analyse/components/addrecorddialog/addrecorddialog.component';
 import { LoginformComponent } from './modules/login/components/loginform/loginform.component';
 import { BubblesComponent } from './modules/login/components/bubbles/bubbles.component';
 import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
+import { DynamicFormComponent } from './shared/components/dynamic-form/dynamic-form.component';
+import { DynamicFormEntityComponent } from './shared/components/dynamic-form-entity/dynamic-form-entity.component';
 
 import { UserService } from './shared/services/user.service';
 import { TableService } from './shared/services/table.service';
@@ -65,6 +69,7 @@ import { FileService } from './shared/services/file.service';
 import { LoaderService } from './shared/services/loader.service';
 import { AuthService } from './shared/services/auth.service';
 import { ApiService } from './shared/services/api.service';
+import { BaseControlService } from './shared/services/base-control.service';
 
 
 import { HttpService, applicationHttpClientCreator } from './shared/services/http.service';
@@ -84,9 +89,13 @@ import { AuthGuard } from './shared/guard/auth.guard';
     ExportAnswerListDialogComponent,
     ExportQuestionListDialogComponent,
     ImportdatadialogComponent,
+    UpdaterecorddialogComponent,
+    AddrecorddialogComponent,
     LoginformComponent,
     BubblesComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    DynamicFormComponent,
+    DynamicFormEntityComponent
     ],
   imports: [
     BrowserModule,
@@ -128,7 +137,7 @@ import { AuthGuard } from './shared/guard/auth.guard';
     MatToolbarModule,
     MatTooltipModule,
   ],
-  entryComponents: [SidemenuComponent, ExportAnswerListDialogComponent, ExportQuestionListDialogComponent, ImportdatadialogComponent],
+  entryComponents: [SidemenuComponent, ExportAnswerListDialogComponent, ExportQuestionListDialogComponent, ImportdatadialogComponent, UpdaterecorddialogComponent, AddrecorddialogComponent],
   providers: [{
       provide: HttpService,
       useFactory: applicationHttpClientCreator,
@@ -136,6 +145,7 @@ import { AuthGuard } from './shared/guard/auth.guard';
     },
     UserService, TableService, CategoryService, KindService, InterviewService, QuestionService, AnswerService, FileService, LoaderService, AuthService,
     TokenStorage,
+    BaseControlService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: Interceptor,

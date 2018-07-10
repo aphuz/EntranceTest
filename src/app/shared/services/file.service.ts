@@ -24,15 +24,14 @@ export class FileService {
   exportExamByInterviewCodePDF(technical: string, interviewCode: string, questionList: string) { 
       let formData: FormData = new FormData();
       formData.append('technical', technical); 
-      formData.append('interviewCode', interviewCode); 
       formData.append('questionList', questionList); 
       let req: IRequestOptions = { responseType: 'blob' };
-      return this.http.post(this.api.exportExamByInterviewCode(), formData, req);
+      return this.http.post(this.api.exportExamByInterviewCode()+ '/' + interviewCode, formData, req);
     }
 
   getAnswerPDF(interviewName: string) {  
       let req: IRequestOptions = { responseType: 'blob' };
-  		return this.http.get(this.api.getAnswerPDFURL()+interviewName, req);      
+  		return this.http.get(this.api.getAnswerPDFURL()+ '/' +interviewName, req);      
 	}
 
 	postFile(fileToUpload: File): Observable<boolean> {    	

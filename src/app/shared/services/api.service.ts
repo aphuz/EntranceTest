@@ -72,5 +72,25 @@ export class ApiService {
   deleteAllRecords(){
     return this.serverIP + APIs[14].url;
   }
+
+  updateUser(){
+    return this.serverIP + APIs[16].url;
+  }
+
+  updateQuestion(){
+    return this.serverIP + APIs[18].url;
+  }
+
+  updateInterview(){
+    return this.serverIP + APIs[17].url;
+  }
+
+  addUser(){
+    return this.serverIP + APIs[19].url;
+  }
+
+  addQuestion(){
+    return this.serverIP + APIs[20].url;
+  }
 }
 

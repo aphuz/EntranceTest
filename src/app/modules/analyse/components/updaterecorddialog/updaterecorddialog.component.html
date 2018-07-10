@@ -1,0 +1,11 @@
+<h1 mat-dialog-title> {{status}}</h1>
+
+<mat-form-field class="input-form" *ngFor="let prop of props, let j=index">   
+  <input *ngIf="!hasProp(recordValue[prop], prop)"  matInput placeholder="{{prop}}" type="text" value="{{recordValue[prop]}}" [(ngModel)]="recordValue[prop]" [disabled]="j===0">
+  <input *ngIf="hasProp(recordValue[prop], prop)"  matInput placeholder="{{prop + 'Id'}}" type="text" value="{{recordValue[prop][prop + 'Id']}}" [(ngModel)]="recordValue[prop][prop + 'Id']" [disabled]="j===0">
+</mat-form-field>
+
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">No Thanks</button>
+    <button mat-button (click)="submit()" cdkFocusInitial>Ok</button>
+</div>

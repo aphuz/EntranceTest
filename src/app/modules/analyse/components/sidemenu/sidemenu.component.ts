@@ -1,10 +1,10 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { Table } from '../../models/table.model';
-import { TABLES } from '../../mocks/mock-tables.mock';
-import { TableService } from '../../services/table.service';
-import { FileService } from '../../services/file.service';
-import { LoaderService } from '../../services/loader.service';
-import { CategoryService } from '../../services/category.service';
+import { Table } from '../../../../shared/models/table.model';
+import { TABLES } from '../../../../shared/mocks/mock-tables.mock';
+import { TableService } from '../../../../shared/services/table.service';
+import { FileService } from '../../../../shared/services/file.service';
+import { LoaderService } from '../../../../shared/services/loader.service';
+import { CategoryService } from '../../../../shared/services/category.service';
 
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ExportAnswerListDialogComponent } from '../export-answer-list-dialog/export-answer-list-dialog.component';
@@ -99,7 +99,6 @@ export class SidemenuComponent implements OnInit {
     		}    		
     		if(result.description == undefined){
     			result.description = "";
-    			alert(result.description)
     		}
 
      		this.fileService.getQuestionPDF(result.technical, result.interviewName, result.description).subscribe(
